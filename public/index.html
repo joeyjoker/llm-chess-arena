@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LLM Chess Arena</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>LLM Chess Arena（国际象棋模型对战）</h1>
+      <p>支持 OpenAI / Anthropic / Gemini / mock-random 双方自动博弈 + 棋谱回放</p>
+    </header>
+
+    <main class="layout">
+      <section class="panel config-panel">
+        <h2>对局配置</h2>
+        <form id="battle-form">
+          <div class="grid-2">
+            <fieldset>
+              <legend>白方模型</legend>
+              <label>Provider
+                <select id="white-provider">
+                  <option value="openai">openai</option>
+                  <option value="anthropic">anthropic</option>
+                  <option value="gemini">gemini</option>
+                  <option value="mock-random">mock-random</option>
+                </select>
+              </label>
+              <label>Model
+                <input id="white-model" placeholder="如 gpt-4o-mini" />
+              </label>
+              <label>API Key（可选，留空则读服务端 .env）
+                <input id="white-key" type="password" placeholder="sk-..." />
+              </label>
+            </fieldset>
+
+            <fieldset>
+              <legend>黑方模型</legend>
+              <label>Provider
+                <select id="black-provider">
+                  <option value="anthropic">anthropic</option>
+                  <option value="openai">openai</option>
+                  <option value="gemini">gemini</option>
+                  <option value="mock-random">mock-random</option>
+                </select>
+              </label>
+              <label>Model
+                <input id="black-model" placeholder="如 claude-3-5-sonnet-latest" />
+              </label>
+              <label>API Key（可选，留空则读服务端 .env）
+                <input id="black-key" type="password" placeholder="sk-ant-..." />
+              </label>
+            </fieldset>
+          </div>
+
+          <div class="grid-3">
+            <label>最大总步数（ply）
+              <input id="max-plies" type="number" value="120" min="10" max="1000" />
+            </label>
+            <label>单步超时（ms）
+              <input id="move-timeout" type="number" value="30000" min="5000" max="120000" />
+            </label>
+            <label>失败重试次数
+              <input id="max-retries" type="number" value="2" min="1" max="5" />
+            </label>
+          </div>
+
+          <div class="actions">
+            <button id="start-btn" type="submit">开始对局</button>
+            <button id="refresh-list-btn" type="button">刷新历史</button>
+          </div>
+        </form>
+
+        <div class="status-box">
+          <div><strong>当前对局ID：</strong><span id="game-id">-</span></div>
+          <div><strong>状态：</strong><span id="game-status">未开始</span></div>
+          <div><strong>结果：</strong><span id="game-result">-</span></div>
+        </div>
+      </section>
+
+      <section class="panel board-panel">
+        <h2>棋局可视化</h2>
+        <div class="board-wrap">
+          <div id="board-grid" class="board-grid" aria-label="chess-board"></div>
+        </div>
+        <div class="board-meta">
+          <span id="board-fen">FEN: startpos</span>
+          <span id="board-last-move">Last move: -</span>
+        </div>
+
+        <div class="replay-controls">
+          <button id="prev-btn" type="button">◀ 上一步</button>
+          <button id="play-btn" type="button">▶ 播放</button>
+          <button id="next-btn" type="button">下一步 ▶</button>
+          <input id="replay-slider" type="range" min="0" max="0" value="0" />
+          <span id="replay-label">ply: 0</span>
+        </div>
+      </section>
+
+      <section class="panel moves-panel">
+        <h2>着法记录</h2>
+        <div class="moves-table-wrap">
+          <table id="moves-table">
+            <thead>
+              <tr>
+                <th>ply</th>
+                <th>方</th>
+                <th>模型</th>
+                <th>着法</th>
+                <th>耗时(ms)</th>
+                <th>兜底</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel history-panel">
+        <h2>历史对局</h2>
+        <ul id="games-list"></ul>
+      </section>
+    </main>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
