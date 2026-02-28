@@ -27,6 +27,18 @@
   - 非法着法先重试
   - 仍失败则随机合法着法兜底，保证对局不中断
 
+## 界面预览
+
+> `docs/screenshots/` 里放了占位图。你可以运行后替换为真实截图。
+
+### 主界面
+
+![主界面](./docs/screenshots/dashboard.svg)
+
+### 回放界面
+
+![回放界面](./docs/screenshots/replay.svg)
+
 ---
 
 ## 技术栈
@@ -51,11 +63,18 @@ npm run dev
 
 浏览器访问：`http://localhost:3000`
 
-### Windows 提示
+> 注意：请使用 `npm run dev`，不要用 `npm dev`。
 
-```powershell
-copy .env.example .env
-```
+### Windows 一键启动
+
+- `start-dev.bat`
+- `start-dev.ps1`
+
+两个脚本都会自动：
+
+1. 若缺少 `.env`，从 `.env.example` 复制生成
+2. 执行 `npm install`
+3. 执行 `npm run dev`
 
 ---
 

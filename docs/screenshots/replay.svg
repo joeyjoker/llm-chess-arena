@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720">
+  <rect width="1280" height="720" fill="#eef4fb"/>
+  <rect x="0" y="0" width="1280" height="92" fill="#124d86"/>
+  <text x="36" y="58" font-size="34" fill="#ffffff" font-family="Segoe UI, Microsoft YaHei">Replay Timeline</text>
+
+  <rect x="48" y="132" width="560" height="560" rx="10" fill="#ffffff" stroke="#d9e4f0"/>
+  <rect x="76" y="160" width="504" height="504" fill="#f0d9b5" stroke="#b58863"/>
+  <text x="270" y="430" font-size="74" fill="#ffffff" font-family="Segoe UI Symbol">♔</text>
+  <text x="334" y="430" font-size="74" fill="#1d2b3a" font-family="Segoe UI Symbol">♚</text>
+
+  <rect x="650" y="132" width="580" height="260" rx="10" fill="#ffffff" stroke="#d9e4f0"/>
+  <text x="674" y="174" font-size="26" fill="#0a2a4e" font-family="Segoe UI, Microsoft YaHei">回放控制</text>
+  <rect x="676" y="210" width="520" height="12" rx="6" fill="#dbe7f5"/>
+  <rect x="676" y="210" width="300" height="12" rx="6" fill="#0078d4"/>
+  <text x="676" y="250" font-size="18" fill="#6a7c92" font-family="Segoe UI, Microsoft YaHei">ply: 42 / 上一步 / 下一步 / 自动播放</text>
+
+  <rect x="650" y="420" width="580" height="272" rx="10" fill="#ffffff" stroke="#d9e4f0"/>
+  <text x="674" y="462" font-size="26" fill="#0a2a4e" font-family="Segoe UI, Microsoft YaHei">着法记录</text>
+  <text x="676" y="502" font-size="17" fill="#6a7c92" font-family="Segoe UI, Microsoft YaHei">41. ... Qh4+   (Anthropic)</text>
+  <text x="676" y="532" font-size="17" fill="#6a7c92" font-family="Segoe UI, Microsoft YaHei">42. Kg2      (OpenAI)</text>
+  <text x="676" y="562" font-size="17" fill="#6a7c92" font-family="Segoe UI, Microsoft YaHei">42. ... Qg4+  (Anthropic)</text>
+
+  <text x="48" y="706" font-size="16" fill="#6a7c92" font-family="Segoe UI, Microsoft YaHei">Placeholder image: replace with real screenshot after running the app.</text>
+</svg>

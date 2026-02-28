@@ -27,6 +27,19 @@ A Node.js app for automated **LLM-vs-LLM chess matches** with:
   - invalid model move -> retry
   - still invalid -> random legal move fallback (game continues)
 
+## UI Preview
+
+> Placeholder images are included in `docs/screenshots/`.
+> Replace them with real screenshots from your local run when convenient.
+
+### Dashboard
+
+![Dashboard](./docs/screenshots/dashboard.svg)
+
+### Replay
+
+![Replay](./docs/screenshots/replay.svg)
+
 ---
 
 ## Tech Stack
@@ -51,12 +64,18 @@ npm run dev
 
 Open: `http://localhost:3000`
 
-### Windows note
-Use:
+> Use `npm run dev` (not `npm dev`).
 
-```powershell
-copy .env.example .env
-```
+### One-click start (Windows)
+
+- `start-dev.bat`
+- `start-dev.ps1`
+
+Both scripts will:
+
+1. create `.env` from `.env.example` if missing
+2. run `npm install`
+3. run `npm run dev`
 
 ---
 
