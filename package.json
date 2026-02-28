@@ -1,7 +1,7 @@
 {
   "name": "llm-chess-arena",
   "version": "1.0.0",
-  "description": "Node.js 应用：让 OpenAI / Anthropic / Gemini 模型自动进行国际象棋对弈并可视化回放。",
+  "description": "A Node.js LLM-vs-LLM chess arena with OpenAI/Anthropic/Gemini support, live board UI, and replayable game logs.",
   "type": "module",
   "main": "server.js",
   "scripts": {

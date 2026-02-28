@@ -1,60 +1,95 @@
-# LLM Chess Arena（Node.js）
+# LLM Chess Arena (Node.js)
 
-一个 Node.js 国际象棋模型对战应用：
+A Node.js app for automated **LLM-vs-LLM chess matches** with:
 
-- 支持把 **OpenAI / Anthropic / Gemini** 作为黑白双方自动下棋
-- 提供 UI 展示棋盘、着法、状态
-- 自动记录对局过程（FEN 快照 + SAN/UCI + 模型输出）
-- 支持回放（滑块 / 播放 / 上一步 / 下一步）
+- configurable players for **OpenAI / Anthropic / Gemini / mock-random**
+- live board visualization for human spectators
+- full move logging (SAN/UCI, FEN snapshots, model raw output, latency)
+- replay controls (slider, step, autoplay)
+
+> 中文文档请查看: [README.zh-CN.md](./README.zh-CN.md)
 
 ---
 
-## 1. 安装与启动
+## Features
+
+- **Provider-agnostic match setup**
+  - White/Black side can independently choose provider + model
+  - API key can be passed from UI or loaded from server `.env`
+- **Live UI**
+  - Real 8x8 board rendering
+  - highlights last move (from/to)
+  - move table with click-to-jump replay
+- **Persistent game records**
+  - saved to `data/games/<gameId>.json`
+  - includes snapshots and metadata for replay/analysis
+- **Safety fallback**
+  - invalid model move -> retry
+  - still invalid -> random legal move fallback (game continues)
+
+---
+
+## Tech Stack
+
+- Node.js (ESM)
+- Express
+- chess.js
+- Vanilla frontend (no build step)
+- Playwright (UI smoke test)
+
+---
+
+## Quick Start
 
 ```bash
 cd llm-chess-arena
 npm install
 cp .env.example .env
-# 填入你的 API Key
+# fill in your API keys
 npm run dev
 ```
 
-浏览器访问：`http://localhost:3000`
+Open: `http://localhost:3000`
+
+### Windows note
+Use:
+
+```powershell
+copy .env.example .env
+```
 
 ---
 
-## 2. 配置说明
+## Configuration
 
-你可以在 UI 中给每一方设置：
+You can configure each side with:
 
 - `provider`: `openai | anthropic | gemini | mock-random`
-- `model`: 具体模型名（可留空走 .env 默认）
-- `apiKey`: 可选（留空则走服务端 .env）
+- `model`: model name (optional, defaults from `.env`)
+- `apiKey`: optional (if omitted, server-side `.env` is used)
 
-同时支持：
+Match-level controls:
 
-- 最大总步数（`maxPlies`）
-- 单步超时（`moveTimeLimitMs`）
-- 非法着法重试次数（`maxRetries`）
-
----
-
-## 3. 记录与回放
-
-每局会写入：
-
-- `data/games/<gameId>.json`
-
-记录内容包括：
-
-- 双方 provider/model
-- 每一步的 SAN/UCI、FEN 前后、耗时、模型原始输出
-- 快照数组（用于回放）
-- 最终结果与终局原因（checkmate/draw/max_plies 等）
+- `maxPlies` (max total plies)
+- `moveTimeLimitMs` (timeout per move)
+- `maxRetries` (retries before fallback)
 
 ---
 
-## 4. API
+## Environment Variables
+
+See `.env.example`.
+
+Typical keys:
+
+- `OPENAI_API_KEY`, `OPENAI_BASE_URL`, `OPENAI_MODEL`
+- `ANTHROPIC_API_KEY`, `ANTHROPIC_BASE_URL`, `ANTHROPIC_MODEL`
+- `GEMINI_API_KEY`, `GEMINI_BASE_URL`, `GEMINI_MODEL`
+- `PORT`
+
+---
+
+## API Endpoints
 
 - `GET /api/health`
 - `POST /api/game/start`
@@ -64,30 +99,40 @@ npm run dev
 
 ---
 
-## 5. Playwright 调试（可选）
+## Replay Data Format
 
-你可以使用 Playwright 做 UI 冒烟测试：
+Each game JSON includes:
+
+- game metadata (players, status, result)
+- `moves[]` with SAN/UCI, FEN before/after, latency, fallback reason
+- `snapshots[]` (for timeline replay)
+- final PGN
+
+---
+
+## Playwright UI Test
 
 ```bash
 npx playwright install
 npm run test:ui
 ```
 
-> 本仓库附带了一个最小 smoke test：`tests/ui.spec.js`
+Included smoke test: `tests/ui.spec.js`
 
 ---
 
-## 6. 注意事项
+## Security Notes
 
-1. LLM 可能返回非法着法，服务端会重试，最终用随机合法着法兜底，确保对局可继续。
-2. 若不想在前端输入 API Key，请只在 `.env` 配置，前端留空即可。
-3. 为了节省 token，提示词中只提供当前局面 FEN + 合法着法列表。
+- Do **not** commit `.env`.
+- This repo already ignores `.env` in `.gitignore`.
+- Prefer server-side key loading over entering secrets in browser UI.
 
 ---
 
-## 7. 可扩展建议
+## Roadmap Ideas
 
-- 加入 Elo 评估与多轮联赛
-- 增加 opening book / tablebase 对比
-- 支持导出 PGN、导入回放
-- 支持 WebSocket 实时推送（当前是轮询）
+- tournament mode + Elo estimation
+- opening book / tablebase evaluation
+- PGN export/import from UI
+- WebSocket real-time updates (replace polling)
+- side-by-side engine eval integration
